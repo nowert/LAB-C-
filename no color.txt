@@ -1,0 +1,112 @@
+#include<windows.h>
+LONG WINAPI WndProc(HWND,UINT,WPARAM,LPARAM);
+int WINAPI WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR lpszCmdLine,int nCmdShow)
+{
+WNDCLASS wc;
+HWND hwnd;
+MSG msg;
+/***************** 1. Define Windows class **************************/
+wc.style = 0; // Class style
+wc.lpfnWndProc = (WNDPROC) WndProc; // Window procedure address
+wc.cbClsExtra = 0; // Class extra bytes
+wc.cbWndExtra = 0; // Window extra bytes
+wc.hInstance = hInstance; // Instance handle
+wc.hIcon = LoadIcon (NULL, IDI_WINLOGO); // Icon handle
+wc.hCursor = LoadCursor (NULL, IDC_ARROW); // Cursor handle
+wc.hbrBackground = (HBRUSH) (COLOR_WINDOW + 1); // Background color
+wc.lpszMenuName = NULL; // Menu name
+wc.lpszClassName = "MyWndClass"; // WNDCLASS name
+
+/***************** 2. Register the Windows class **********************/
+RegisterClass(&wc);
+/***************** 3. Create window **********************/
+hwnd = CreateWindow (
+"MyWndClass", // WNDCLASS name
+"SDK Application", // Window title
+WS_OVERLAPPEDWINDOW, // Window style
+CW_USEDEFAULT, // Horizontal position
+CW_USEDEFAULT, // Vertical position
+CW_USEDEFAULT, // Initial width
+CW_USEDEFAULT, // Initial height
+HWND_DESKTOP, // Handle of parent window
+NULL, // Menu handle
+hInstance, // Application's instance handle
+NULL // Window-creation data
+);
+
+/***************** 4. Display the window **********************/
+ShowWindow (hwnd, nCmdShow);
+UpdateWindow (hwnd);
+/***************** 5. Message loop **********************/
+while(GetMessage(&msg,NULL,0,0)){
+	TranslateMessage(&msg);
+	DispatchMessage(&msg);
+}
+return msg.wParam;
+}
+LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam,LPARAM lParam)
+{
+PAINTSTRUCT ps;
+HDC hdc;
+switch(message){
+	case WM_PAINT:
+	hdc = BeginPaint(hwnd,&ps);
+		
+		//kha
+		Ellipse(hdc,120,340,275,394);
+		SelectObject(hdc,CreatePen(PS_SOLID,1,RGB(255,255,255)));
+		Rectangle(hdc, 231, 340,275,400);
+		Rectangle(hdc, 100, 340,158,400);
+		Rectangle(hdc, 100, 340,232,370);
+		SelectObject(hdc,CreatePen(PS_SOLID,1,RGB(0,0,0)));
+		Ellipse(hdc,190,340,350,396);
+		SelectObject(hdc,CreatePen(PS_SOLID,1,RGB(255,255,255)));
+		Rectangle(hdc, 100, 340,232,391);
+		Rectangle(hdc, 190, 340,350,370);	
+		Rectangle(hdc, 295, 370,350,398);
+		SelectObject(hdc,CreatePen(PS_SOLID,1,RGB(0,0,0)));
+		Ellipse(hdc,279,395,308,365);
+		SelectObject(hdc,CreatePen(PS_SOLID,1,RGB(255,255,255)));
+		Rectangle(hdc, 271, 365,290,394);
+		Rectangle(hdc, 271, 365,320,370);
+		SelectObject(hdc,CreatePen(PS_SOLID,1,RGB(0,0,0)));
+		Ellipse(hdc,153,362,195,394);
+	    SelectObject(hdc,CreatePen(PS_SOLID,1,RGB(255,255,255)));
+		Rectangle(hdc, 180, 362,210,392);	
+		Rectangle(hdc, 150, 350,210,370);
+		SelectObject(hdc,CreatePen(PS_SOLID,1,RGB(0,0,0)));
+		Rectangle(hdc, 220, 346,240,345);
+		Rectangle(hdc, 158, 370,303,371);
+		Rectangle(hdc, 231, 345,230,390);
+		//thong
+		Ellipse(hdc,157,335,303,195); //wi tong
+		Ellipse(hdc,180,310,280,220); //wi tong
+		Rectangle(hdc, 181, 270,279, 271);
+		SelectObject(hdc,CreatePen(PS_SOLID,1,RGB(255,255,255)));
+		Rectangle(hdc, 180, 270,280, 220);
+		SelectObject(hdc,CreatePen(PS_SOLID,1,RGB(0,0,0)));
+	    //head	
+		Ellipse(hdc,120,210,340,20); // big h
+		Ellipse(hdc,120,209,340,20); // big h
+        Ellipse(hdc,140,210,320,60); //small h
+		Ellipse(hdc,190,100,230,50); //ta
+		Ellipse(hdc,230,100,270,50); //ta
+		Ellipse(hdc,220,110,240,90);  //jamug
+		Rectangle(hdc, 170, 195,289, 208); //pogkor
+        Ellipse(hdc,215,190,245,220);//kading
+        Ellipse(hdc,213,201,247,209);
+		Ellipse(hdc,210,75,223,60); // ta b r
+		Ellipse(hdc,235,75,247,60); // ta b R
+		Ellipse(hdc,170,145,290,170); // m
+		SelectObject(hdc,CreatePen(PS_SOLID,1,RGB(255,255,255)));
+		Ellipse(hdc,170,130,290,168); //w
+		SelectObject(hdc,CreatePen(PS_SOLID,1,RGB(0,0,0)));
+	    Rectangle(hdc, 229, 110,230, 170); //s jamug
+	EndPaint(hwnd,&ps);
+	return 0;
+	case WM_DESTROY:
+	PostQuitMessage(0);
+	return 0;
+}
+return DefWindowProc (hwnd, message, wParam, lParam);
+}
